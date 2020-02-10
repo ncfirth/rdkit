@@ -1,4 +1,5 @@
 tests = [
+  ("python", "UnitTestRDLogger.py", {}),
   ("python", "test_list.py", {'dir': 'ML'}),
   ("python", "test_list.py", {'dir': 'Chem'}),
   ("python", "test_list.py", {'dir': 'DataStructs'}),

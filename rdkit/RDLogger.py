@@ -10,7 +10,7 @@
 #
 
 from rdkit.rdBase import EnableLog, DisableLog, AttachFileToLog, LogMessage
-import sys, traceback
+import sys, traceback, contextlib
 
 _levels = ['rdApp.debug', 'rdApp.info', 'rdApp.warning', 'rdApp.error']
 DEBUG = 0
@@ -18,6 +18,16 @@ INFO = 1
 WARNING = 2
 ERROR = 3
 CRITICAL = 4
+
+LEVEL_STRINGS = {
+  'debug': DEBUG,
+  'info': INFO,
+  'warn': WARNING,
+  'warning': WARNING,
+  'error': ERROR,
+  'crit': CRITICAL,
+  'critical': CRITICAL
+}
 
 
 class logger(object):
@@ -54,3 +64,11 @@ class logger(object):
       EnableLog(_levels[i])
     for i in range(0, val):
       DisableLog(_levels[i])
+
+
+@contextlib.contextmanager
+def log_level(level, reset_level='info'):
+  lg = logger()
+  lg.setLevel(LEVEL_STRINGS[level.lower()])
+  yield
+  lg.setLevel(LEVEL_STRINGS[reset_level.lower()])
